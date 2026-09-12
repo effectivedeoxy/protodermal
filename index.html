@@ -1,1 +1,27 @@
-Test!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+</head>
+<body>
+    <h1 id="Header">There are 0 days until Christmas.</h1>
+    <script>
+    const CurrentTimestamp = Math.floor(Date.now() / 1000);
+    const CurrentDate = new Date(CurrentTimestamp * 1000);
+    let ChristmasYear = CurrentDate.getFullYear();
+    const Month = CurrentDate.getMonth();
+    const Day = CurrentDate.getDate();
+
+    if (Month === 11 && Day > 25)
+        ChristmasYear += 1;
+
+    const ChristmasDate = new Date(ChristmasYear, 11, 25);
+    const OneDayMilliseconds = 1000 * 60 * 60 * 24;
+    const DiffInMilliseconds = ChristmasDate.getTime() - CurrentDate.getTime();
+    const Display = Math.ceil(DiffInMilliseconds / OneDayMilliseconds);
+    document.getElementById("Header").textContent = `There are ${Display} days until christmas.`;
+    </script>
+</body>
+</html>
