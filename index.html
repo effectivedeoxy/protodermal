@@ -7,21 +7,80 @@
 </head>
 <body>
     <h1 id="Header">There are 0 days until Christmas.</h1>
+    <label for="LangSelect">Language</label>
+    <select id="LangSelect">
+    </select>
     <script>
-    const CurrentTimestamp = Math.floor(Date.now() / 1000);
-    const CurrentDate = new Date(CurrentTimestamp * 1000);
-    let ChristmasYear = CurrentDate.getFullYear();
-    const Month = CurrentDate.getMonth();
-    const Day = CurrentDate.getDate();
+    const translations = {
+        en: (days) => `There are ${days} days until Christmas.`,
+        es: (days) => `Faltan ${days} días para Navidad.`,
+        fr: (days) => `Il reste ${days} jours avant Noël.`,
+        de: (days) => `Es sind noch ${days} Tage bis Weihnachten.`,
+        it: (days) => `Mancano ${days} giorni a Natale.`,
+        pt: (days) => `Faltam ${days} dias para o Natal.`,
+        nl: (days) => `Het is nog ${days} dagen tot Kerstmis.`,
+        pl: (days) => `Do świąt Bożego Narodzenia zostało ${days} dni.`,
+        ru: (days) => `До Рождества осталось ${days} дней.`,
+        uk: (days) => `До Різдва залишилося ${days} днів.`,
+        sv: (days) => `Det är ${days} dagar kvar till jul.`,
+        no: (days) => `Det er ${days} dager igjen til jul.`,
+        da: (days) => `Der er ${days} dage til jul.`,
+        fi: (days) => `Jouluun on ${days} päivää.`,
+        cs: (days) => `Do Vánoc zbývá ${days} dní.`,
+        sk: (days) => `Do Vianoc zostáva ${days} dní.`,
+        hu: (days) => `${days} nap van hátra karácsonyig.`,
+        ro: (days) => `Mai sunt ${days} zile până la Crăciun.`,
+        el: (days) => `Απομένουν ${days} ημέρες μέχρι τα Χριστούγεννα.`,
+        tr: (days) => `Noel'e ${days} gün kaldı.`,
+        ja: (days) => `クリスマスまであと${days}日です。`,
+        zh: (days) => `距离圣诞节还有 ${days} 天。`,
+        ko: (days) => `크리스마스까지 ${days}일 남았습니다.`,
+        vi: (days) => `Còn ${days} ngày nữa là đến Giáng sinh.`,
+        id: (days) => `Ada ${days} hari lagi sampai Natal.`,
+        ms: (days) => `Terdapat ${days} hari lagi sebelum Krismas.`,
+        th: (days) => `เหลืออีก ${days} วันจะถึงวันคริสต์มาส`,
+        ar: (days) => `يوجد ${days} يوماً حتى عيد الميلاد.`,
+        hi: (days) => `क्रिसमस में ${days} दिन बाकी हैं।`,
+        fa: (days) => `${days} روز تا کریسمس باقی مانده است.`,
+        jp: (days) => `クリスマスまであと ${days} 日です。`
+    };
+        
+    var currentLang = 'en';
 
-    if (Month === 11 && Day > 25)
-        ChristmasYear += 1;
+    const selector = document.getElementById("LangSelect");
+    Object.keys(translations).forEach(code => {
+    const option = document.createElement("option");
+    option.value = code;
+    option.textContent = translations[code].name;
+    selector.appendChild(option);
+    });
+        
+    function updateCountdown() 
+    {
+        const now = new Date();
+        let christmasYear = now.getFullYear();
+        const month = now.getMonth();
+        const day = now.getDate();
 
-    const ChristmasDate = new Date(ChristmasYear, 11, 25);
-    const OneDayMilliseconds = 1000 * 60 * 60 * 24;
-    const DiffInMilliseconds = ChristmasDate.getTime() - CurrentDate.getTime();
-    const Display = Math.ceil(DiffInMilliseconds / OneDayMilliseconds);
-    document.getElementById("Header").textContent = `There are ${Display} days until christmas.`;
+        if (month === 11 && day > 25) 
+            christmasYear += 1;
+
+        const christmasDate = new Date(christmasYear, 11, 25);
+        const diffInMilliseconds = christmasDate.getTime() - now.getTime();
+        const oneDayMilliseconds = 1000 * 60 * 60 * 24;
+        const display = Math.ceil(diffInMilliseconds / oneDayMilliseconds);
+
+        const getMessage = translations[currentLang] || translations['en'];
+        
+        document.getElementById("Header").textContent = getMessage(display);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    const dropdown = document.getElementById('LangSelect');
+    dropdown.addEventListener('change', function() {
+        currentLang = this.value;
+        updateCountdown();
+    });
     </script>
 </body>
 </html>
