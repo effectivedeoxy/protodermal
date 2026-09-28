@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
     <h1 id="Header">There are 0 days until Christmas.</h1>
-    <label for="LangSelect">Language</label>
+    <label id="LangLabel" for="LangSelect">Language</label>
     <select id="LangSelect">
     </select>
+    <label id="PickerLabel" for="BgPicker">Background Image</label>
+    <input type="file" id="BgPicker" accept="image/*">
     <script>
     const translations = {
         en: (days) => `There are ${days} days until Christmas.`,
@@ -44,7 +47,7 @@
         fa: (days) => `${days} روز تا کریسمس باقی مانده است.`,
         jp: (days) => `クリスマスまであと ${days} 日です。`
     };
-        
+
     var currentLang = 'en';
 
     const selector = document.getElementById("LangSelect");
@@ -54,7 +57,7 @@
     option.textContent = translations[code].name;
     selector.appendChild(option);
     });
-        
+
     function updateCountdown() 
     {
         const now = new Date();
@@ -78,9 +81,122 @@
     setInterval(updateCountdown, 1000);
     const dropdown = document.getElementById('LangSelect');
     dropdown.addEventListener('change', function() {
-        currentLang = this.value;
-        updateCountdown();
+            currentLang = this.value;
+            updateCountdown();
     });
-    </script>
+</script>
+<script>
+    const filePicker = document.getElementById('BgPicker');
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedBg = localStorage.getItem('savedBackground');
+        if (savedBg) 
+            document.body.style.backgroundImage = `url(${savedBg})`;
+    });
+
+    filePicker.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+                document.body.style.backgroundImage = `url(${base64Image})`;
+                localStorage.setItem('savedBackground', base64Image);
+            };
+            
+            reader.readAsDataURL(file);
+        }
+    });    
+</script>
+<style>
+    #Header {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background: rgb(56, 56, 56);
+    padding: 1px;
+    border-radius: 1px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: bold;
+    }
+
+    body {
+    background-color: rgb(56, 56, 56);
+    }
+
+    #LangSelect {
+    position: fixed;
+    bottom: 20px;
+    left: 105px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: bold;
+    
+    z-index: 1000;
+    }
+
+    #LangLabel {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    
+    z-index: 1000;
+    }
+
+    @media (max-width: 767px) 
+    {
+        .LangLabel {
+        font-size: 32px;
+        }
+    }
+
+    /*background*/
+
+    body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        transition: background 0.1s ease-in-out;
+    }
+
+    #BgPicker {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-weight: bold;
+        color: rgb(255, 255, 255);
+        /*background: white;
+        padding: 8px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);*/
+    }
+
+    #PickerLabel {
+        position: fixed;
+        bottom: 20px;
+        right: 260px;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-weight: bold;
+        color: rgb(255, 255, 255);
+        /*background: white;
+        padding: 8px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);*/
+    }
+</style>
 </body>
 </html>
