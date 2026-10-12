@@ -13,6 +13,37 @@
     </select>
     <label id="PickerLabel" for="BgPicker">Background Image</label>
     <input type="file" id="BgPicker" accept="image/*">
+    <button type="button" id="CompactButton">Compact mode off</button>
+    <script>
+    const button = document.getElementById('CompactButton');
+    button.addEventListener('click', function() {
+    if (button.textContent === 'Compact mode off')
+    {
+        button.textContent = 'Compact mode on';
+        const countdown = document.getElementById('Header');
+        countdown.style.position = 'absolute';
+        countdown.style.top = '0px';
+        countdown.style.left = '1280px';
+        countdown.style.zIndex = '10';
+    }
+    else
+        button.textContent = 'Compact mode off';
+        const countdown = document.getElementById('Header');
+        countdown.style.position = 'center';
+        countdown.style.top = '0px';
+        countdown.style.left = '0px';
+        countdown.style.zIndex = '10';
+    });
+    </script>
+    <label for="ColorPicker"></label>
+    <input type="color" id="ColorPicker" value="#000000">
+    <script>
+    const colorPicker = document.getElementById('ColorPicker');
+    const textTarget = document.getElementById('Header');
+    colorPicker.addEventListener('input', (event) => {
+        textTarget.style.color = event.target.value;
+    });
+    </script>
     <script>
     const translations = {
         en: (days) => `There are ${days} days until Christmas.`,
@@ -58,6 +89,8 @@
     selector.appendChild(option);
     });
 
+
+
     function updateCountdown() 
     {
         const now = new Date();
@@ -68,14 +101,24 @@
         if (month === 11 && day > 25) 
             christmasYear += 1;
 
-        const christmasDate = new Date(christmasYear, 11, 25);
+        const christmasDate = new Date(christmasYear, 11, 25, 0, 0, 0);
         const diffInMilliseconds = christmasDate.getTime() - now.getTime();
         const oneDayMilliseconds = 1000 * 60 * 60 * 24;
+        const days = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diffInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diffInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diffInMilliseconds % (1000 * 60)) / 1000);
         const display = Math.ceil(diffInMilliseconds / oneDayMilliseconds);
 
-        const getMessage = translations[currentLang] || translations['en'];
-        
-        document.getElementById("Header").textContent = getMessage(display);
+        const buttn = document.getElementById('CompactButton');
+
+        if (button.textContent === 'Compact mode off')
+        {
+            const getMessage = translations[currentLang] || translations['en'];
+            document.getElementById("Header").textContent = getMessage(display);
+        }
+        else
+            document.getElementById("Header").textContent = `${days}D\n${hours}H\n${minutes}m\n${seconds}s`;
     }
     updateCountdown();
     setInterval(updateCountdown, 1000);
@@ -118,6 +161,7 @@
     border-radius: 1px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-weight: bold;
+    white-space: pre-line; 
     }
 
     body {
@@ -154,6 +198,37 @@
     
     z-index: 1000;
     }
+
+    #CompactButton {
+    position: fixed;
+    bottom: 20px;
+    left: 200px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: bold;
+    
+    z-index: 1000;
+    }
+
+    #ColorPicker {
+    position: fixed;
+    bottom: 20px;
+    left: 350px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: bold;
+    
+    z-index: 1000;
+    }
+
 
     @media (max-width: 767px) 
     {
