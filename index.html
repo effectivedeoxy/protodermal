@@ -5,12 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
 <body>
     <h1 id="Header">There are 0 days until Christmas.</h1>
     <label id="LangLabel" for="LangSelect">Language</label>
     <select id="LangSelect">
     </select>
+    
+    <label id="HolidayLabel" for="HolidaySelect">Holiday</label>
+    <select id="HolidaySelect">
+        <option value="christmas">Christmas</option>
+        <option value="newyear">New Year's Day</option>
+        <option value="halloween">Halloween</option>
+        <option value="valentin">Valentine's Day</option>
+        <option value="independence">Independence Day</option>
+    </select>
+
     <label id="PickerLabel" for="BgPicker">Background Image</label>
     <input type="file" id="BgPicker" accept="image/*">
     <button type="button" id="CompactButton">Compact mode off</button>
@@ -46,86 +57,119 @@
     </script>
     <script>
     const translations = {
-        en: (days) => `There are ${days} days until Christmas.`,
-        es: (days) => `Faltan ${days} días para Navidad.`,
-        fr: (days) => `Il reste ${days} jours avant Noël.`,
-        de: (days) => `Es sind noch ${days} Tage bis Weihnachten.`,
-        it: (days) => `Mancano ${days} giorni a Natale.`,
-        pt: (days) => `Faltam ${days} dias para o Natal.`,
-        nl: (days) => `Het is nog ${days} dagen tot Kerstmis.`,
-        pl: (days) => `Do świąt Bożego Narodzenia zostało ${days} dni.`,
-        ru: (days) => `До Рождества осталось ${days} дней.`,
-        uk: (days) => `До Різдва залишилося ${days} днів.`,
-        sv: (days) => `Det är ${days} dagar kvar till jul.`,
-        no: (days) => `Det er ${days} dager igjen til jul.`,
-        da: (days) => `Der er ${days} dage til jul.`,
-        fi: (days) => `Jouluun on ${days} päivää.`,
-        cs: (days) => `Do Vánoc zbývá ${days} dní.`,
-        sk: (days) => `Do Vianoc zostáva ${days} dní.`,
-        hu: (days) => `${days} nap van hátra karácsonyig.`,
-        ro: (days) => `Mai sunt ${days} zile până la Crăciun.`,
-        el: (days) => `Απομένουν ${days} ημέρες μέχρι τα Χριστούγεννα.`,
-        tr: (days) => `Noel'e ${days} gün kaldı.`,
-        ja: (days) => `クリスマスまであと${days}日です。`,
-        zh: (days) => `距离圣诞节还有 ${days} 天。`,
-        ko: (days) => `크리스마스까지 ${days}일 남았습니다.`,
-        vi: (days) => `Còn ${days} ngày nữa là đến Giáng sinh.`,
-        id: (days) => `Ada ${days} hari lagi sampai Natal.`,
-        ms: (days) => `Terdapat ${days} hari lagi sebelum Krismas.`,
-        th: (days) => `เหลืออีก ${days} วันจะถึงวันคริสต์มาส`,
-        ar: (days) => `يوجد ${days} يوماً حتى عيد الميلاد.`,
-        hi: (days) => `क्रिसमस में ${days} दिन बाकी हैं।`,
-        fa: (days) => `${days} روز تا کریسمس باقی مانده است.`,
-        jp: (days) => `クリスマスまであと ${days} 日です。`
+        en: (days, holiday) => `There are ${days} days until ${holiday}.`,
+        es: (days, holiday) => `Faltan ${days} días para ${holiday}.`,
+        fr: (days, holiday) => `Il reste ${days} jours avant ${holiday}.`,
+        de: (days, holiday) => `Es sind noch ${days} Tage bis ${holiday}.`,
+        it: (days, holiday) => `Mancano ${days} giorni a ${holiday}.`,
+        pt: (days, holiday) => `Faltam ${days} dias para ${holiday}.`,
+        nl: (days, holiday) => `Het is nog ${days} dagen tot ${holiday}.`,
+        pl: (days, holiday) => `Do ${holiday} zostało ${days} dni.`,
+        ru: (days, holiday) => `До ${holiday} осталось ${days} дней.`,
+        uk: (days, holiday) => `До ${holiday} залишилося ${days} днів.`,
+        sv: (days, holiday) => `Det är ${days} dagar kvar till ${holiday}.`,
+        no: (days, holiday) => `Det er ${days} dager igjen til ${holiday}.`,
+        da: (days, holiday) => `Der er ${days} dage til ${holiday}.`,
+        fi: (days, holiday) => `Päivää ${holiday}un on ${days}.`,
+        cs: (days, holiday) => `Do ${holiday} zbývá ${days} dní.`,
+        sk: (days, holiday) => `Do ${holiday} zostáva ${days} dní.`,
+        hu: (days, holiday) => `${days} nap van hátra ${holiday}-ig.`,
+        ro: (days, holiday) => `Mai sunt ${days} zile până la ${holiday}.`,
+        el: (days, holiday) => `Απομένουν ${days} ημέρες μέχρι ${holiday}.`,
+        tr: (days, holiday) => `${holiday}'e ${days} gün kaldı.`,
+        ja: (days, holiday) => `${holiday}まであと${days}日です。`,
+        zh: (days, holiday) => `距离${holiday}还有 ${days} 天。`,
+        ko: (days, holiday) => `${holiday}까지 ${days}일 남았습니다.`,
+        vi: (days, holiday) => `Còn ${days} ngày nữa là đến ${holiday}.`,
+        id: (days, holiday) => `Ada ${days} hari lagi sampai ${holiday}.`,
+        ms: (days, holiday) => `Terdapat ${days} hari lagi sebelum ${holiday}.`,
+        th: (days, holiday) => `เหลืออีก ${days} วันจะถึง${holiday}`,
+        ar: (days, holiday) => `يوجد ${days} يوماً حتى ${holiday}.`,
+        hi: (days, holiday) => `${holiday} में ${days} दिन बाकी हैं।`,
+        fa: (days, holiday) => `${days} روز تا ${holiday} باقی مانده است.`,
+        jp: (days, holiday) => `${holiday}まであと ${days} 日です。`
+    };
+
+    const holidays = {
+        christmas: {
+            month: 11, day: 25,
+            names: { en: "Christmas", es: "Navidad", fr: "Noël", de: "Weihnachten", it: "Natale", pt: "Natal", nl: "Kerstmis", pl: "Boże Narodzenie", ru: "Рождество", ja: "クリスマス", zh: "圣诞节" }
+        },
+        newyear: {
+            month: 0, day: 1,
+            names: { en: "New Year's Day", es: "Año Nuevo", fr: "le Nouvel An", de: "Neujahr", it: "Capodanno", pt: "Ano Novo", nl: "Nieuwjaar", pl: "Nowy Rok", ru: "Новый год", ja: "元日", zh: "新年" }
+        },
+        halloween: {
+            month: 9, day: 31,
+            names: { en: "Halloween", es: "Halloween", fr: "Halloween", de: "Halloween", it: "Halloween", pt: "Halloween", nl: "Halloween", pl: "Halloween", ru: "Хэллоуин", ja: "ハロウィン", zh: "万圣节" }
+        },
+        valentin: {
+            month: 1, day: 14,
+            names: { en: "Valentine's Day", es: "San Valentín", fr: "la Saint-Valentin", de: "Valentinstag", it: "San Valentino", pt: "o Dia dos Namorados", nl: "Valentijnsdag", pl: "Walentynki", ru: "День святого Валентина", ja: "バレンタインデー", zh: "情人节" }
+        },
+        independence: {
+            month: 6, day: 4,
+            names: { en: "Independence Day", es: "el Día de la Independencia", fr: "le Jour de l'Indépendance", de: "Unabhängigkeitstag", it: "il Giorno dell'Indipendenza", pt: "o Dia da Independência", nl: "Onafhankelijkheidsdag", pl: "Dzień Niepodległości", ru: "День независимости", ja: "独立記念日", zh: "独立日" }
+        }
     };
 
     var currentLang = 'en';
+    var currentHoliday = 'christmas';
 
     const selector = document.getElementById("LangSelect");
     Object.keys(translations).forEach(code => {
-    const option = document.createElement("option");
-    option.value = code;
-    option.textContent = translations[code].name;
-    selector.appendChild(option);
+        const option = document.createElement("option");
+        option.value = code;
+        option.textContent = code.toUpperCase();
+        selector.appendChild(option);
     });
-
-
 
     function updateCountdown() 
     {
         const now = new Date();
-        let christmasYear = now.getFullYear();
+        let targetYear = now.getFullYear();
         const month = now.getMonth();
         const day = now.getDate();
 
-        if (month === 11 && day > 25) 
-            christmasYear += 1;
+        const hConfig = holidays[currentHoliday];
 
-        const christmasDate = new Date(christmasYear, 11, 25, 0, 0, 0);
-        const diffInMilliseconds = christmasDate.getTime() - now.getTime();
+        if (month > hConfig.month || (month === hConfig.month && day > hConfig.day))
+            targetYear += 1;
+
+        const targetDate = new Date(targetYear, hConfig.month, hConfig.day, 0, 0, 0);
+        const diffInMilliseconds = targetDate.getTime() - now.getTime();
         const oneDayMilliseconds = 1000 * 60 * 60 * 24;
-        const days = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diffInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const days = Math.floor(diffInMilliseconds / oneDayMilliseconds);
+        const hours = Math.floor((diffInMilliseconds % oneDayMilliseconds) / (1000 * 60 * 60));
         const minutes = Math.floor((diffInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diffInMilliseconds % (1000 * 60)) / 1000);
         const display = Math.ceil(diffInMilliseconds / oneDayMilliseconds);
 
         const buttn = document.getElementById('CompactButton');
+        const holidayName = hConfig.names[currentLang] || hConfig.names['en'];
 
         if (button.textContent === 'Compact mode off')
         {
             const getMessage = translations[currentLang] || translations['en'];
-            document.getElementById("Header").textContent = getMessage(display);
+            document.getElementById("Header").textContent = getMessage(display, holidayName);
         }
         else
             document.getElementById("Header").textContent = `${days}D\n${hours}H\n${minutes}m\n${seconds}s`;
     }
+    
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
     const dropdown = document.getElementById('LangSelect');
     dropdown.addEventListener('change', function() {
-            currentLang = this.value;
-            updateCountdown();
+        currentLang = this.value;
+        updateCountdown();
+    });
+
+    const holidayDropdown = document.getElementById('HolidaySelect');
+    holidayDropdown.addEventListener('change', function() {
+        currentHoliday = this.value;
+        updateCountdown();
     });
 </script>
 <script>
@@ -152,126 +196,5 @@
         }
     });    
 </script>
-<style>
-    #Header {
-    text-align: center;
-    color: rgb(255, 255, 255);
-    background: rgb(56, 56, 56);
-    padding: 1px;
-    border-radius: 1px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: bold;
-    white-space: pre-line; 
-    }
-
-    body {
-    background-color: rgb(56, 56, 56);
-    }
-
-    #LangSelect {
-    position: fixed;
-    bottom: 20px;
-    left: 105px;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: bold;
-    
-    z-index: 1000;
-    }
-
-    #LangLabel {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    
-    z-index: 1000;
-    }
-
-    #CompactButton {
-    position: fixed;
-    bottom: 20px;
-    left: 200px;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: bold;
-    
-    z-index: 1000;
-    }
-
-    #ColorPicker {
-    position: fixed;
-    bottom: 20px;
-    left: 350px;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: bold;
-    
-    z-index: 1000;
-    }
-
-
-    @media (max-width: 767px) 
-    {
-        .LangLabel {
-        font-size: 32px;
-        }
-    }
-
-    /*background*/
-
-    body {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 100vh;
-        transition: background 0.1s ease-in-out;
-    }
-
-    #BgPicker {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        font-weight: bold;
-        color: rgb(255, 255, 255);
-        /*background: white;
-        padding: 8px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);*/
-    }
-
-    #PickerLabel {
-        position: fixed;
-        bottom: 20px;
-        right: 260px;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        font-weight: bold;
-        color: rgb(255, 255, 255);
-        /*background: white;
-        padding: 8px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);*/
-    }
-</style>
 </body>
 </html>
